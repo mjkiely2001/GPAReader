@@ -1,3 +1,4 @@
+import java.util.LinkedList;
 import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.File;
@@ -107,14 +108,14 @@ public class compareGPA {
     
     //This method reads the first section file and calls the "Parsing Methods: getSecName(), getID(), getName(), getGPA()"
     public static void readFirstSectionFile(String sectionName1, String mainFolderPath) {
-    	int lines = 0;
-    	
     	File file = new File(mainFolderPath + "/" + sectionName1);
+
     	System.out.println(sectionName1);
+    	
     	try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));) {
     		getSecName(br);
-			getID(br, lines);
-			
+    		getID(br);
+    		
     	} catch(IOException e) {
     		System.out.println("Could not read file");
     	}
@@ -134,18 +135,31 @@ public class compareGPA {
     }
     
     //This method gets the ID or the first string before the first comma of each line (lines 2 - last line)
-    public static void getID(BufferedReader br, int lines) {
-    	try {
-			do {
-				lines++;
-				String[] listOfIDs = new String[lines];
-				for(int i = 0; i < lines; i++) {
-					listOfIDs[i] = br.readLine();
-					System.out.println(listOfIDs[i]);
-				} 
-				} while(br.readLine() !=null);
-    	} catch (IOException e) {
-			System.out.println("Cannot read ID");
-    	}
-	}
+    public static void getID(BufferedReader br) {
+    	LinkedList<String> listOfIDs = new LinkedList<String>();
+    	
+    	int countLines = 0;
+    	String[] lines = null;
+    	String line = "";
+
+		try {
+			while((line = br.readLine()) != null) {
+				lines = line.split(",");
+				listOfIDs.add(lines[0]);
+			}
+			System.out.println(listOfIDs);
+			
+		} catch (IOException e) {
+			System.out.println("Cannot read user IDs'");
+		} finally {
+			try {
+		        br.close();
+		    } catch (Exception e) {
+		    	System.out.println("Cannot close file");
+		    }
+	    }
+    }
 }
+    
+  //This method gets the Name of the student of each line (lines 2 - last line)
+
