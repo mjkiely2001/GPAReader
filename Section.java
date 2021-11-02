@@ -4,10 +4,16 @@ public class Section implements Comparable<Section>
 {
 	
 	LinkedList<Student> Sec = new LinkedList<Student>();
+	private string Name = "";
 	
 	public Section()
 	{
-		LinkedList<Student> Sec = new LinkedList<Student>();
+		Name = "";
+	}
+	
+	public Section(String nName)
+	{
+		Name = nName;
 	}
 	
 	public void addStudent(String nID, String nName, int nGPA)
